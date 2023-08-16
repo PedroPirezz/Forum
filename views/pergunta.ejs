@@ -1,0 +1,84 @@
+<%- include ('partials/header.ejs') %>
+<body>
+    
+<%- include ('partials/navbar.ejs') %>
+
+ <div class="container">
+    <br>
+
+
+    <% if(valorsessao==1){ %>
+ 
+        <form action="/atualizarresposta">
+            <input type="text" name="novares">
+            <input type="submit" value="Enviar">
+        </form>
+        <% } %>
+    <% if(respostas.criadorId==id){ %>
+
+       
+
+        <% }else{ %>
+
+
+
+    <% if(pergunta.criadorId==id){ %>
+    <a href="/DeletarPergunta/<%=pergunta.id%>">Deletar Pergunta</a>
+    <a href="/Atualizar/<%=pergunta.id%>">Editar Pergunta</a>
+    <% } %>
+    <br><hr><h4><%=pergunta.criadorNome%> perguntou</h4><br>
+
+
+    <h3><%=pergunta.titulo%></h3>
+
+
+    <h6><%=pergunta.descricao%></h6><br>
+
+
+    Publicado em <%= pergunta.createdAt.toISOString().substring(0, 10) %>
+
+
+
+    <div class="card-body">
+        <form  method="POST" action="/salvarresposta">
+       
+            <label >Resposta</label>
+            <textarea placeholder="Digite sua Resposta" class="form-control" name="resposta"></textarea>
+            <br>
+            <input type="hidden" name="perguntaId" value="<%=pergunta.id%>">
+            
+            <button type="submit" class="btn btn-success">Responder</button>
+
+        </form>
+
+        <div class="resposta"><br>
+            <h3>Respostas</h3>
+            <% respostas.forEach(respostas => { %>
+                <div class="card">
+                <h5><%=respostas.criadorNome%> respondeu
+                    <%=respostas.Corpo%> --------------
+                    <%=respostas.createdAt.toISOString().substring(0, 10)%>
+                </h5>
+                
+
+                
+    <% if(respostas.criadorId==id){ %>
+        <a href="/DeletarResposta/<%= pergunta.id %>/<%=respostas.id %>">Apagar Resposta</a>
+        <a href="/AtualizarResposta/<%= pergunta.id %>/<%=respostas.id %>">Editar Reposta</a>
+        <% } %>
+                 
+                </div>
+                <br>
+
+          <%  }) %>
+          
+        </div>
+    </div>
+
+    <% } %>
+
+ </div>
+    
+
+</body>
+<%- include ('partials/footer.ejs') %>
